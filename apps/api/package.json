@@ -18,10 +18,11 @@
   },
   "dependencies": {
     "@aquarist/shared": "*",
-    "@supabase/supabase-js": "^2.39.0",
-    "@supabase/functions-js": "^2.4.4"
+    "@supabase/functions-js": "^2.4.4",
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
+    "@types/node": "20",
     "typescript": "~5.3.3"
   }
 }

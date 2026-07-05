@@ -9,11 +9,12 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck",
+    "typecheck": "tsc -b",
     "test": "turbo run test",
     "clean": "turbo run clean && rm -rf node_modules .turbo"
   },
   "devDependencies": {
+    "@tsconfig/strictest": "^2.0.8",
     "turbo": "latest",
     "typescript": "~6.0.2"
   },
