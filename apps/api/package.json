@@ -1,0 +1,27 @@
+{
+  "name": "@aquarist/api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "supabase functions serve",
+    "build": "tsc --noEmit",
+    "lint": "eslint . --ext ts",
+    "test": "echo \"add tests\""
+  },
+  "dependencies": {
+    "@aquarist/shared": "*",
+    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/functions-js": "^2.4.4"
+  },
+  "devDependencies": {
+    "typescript": "~5.3.3"
+  }
+}

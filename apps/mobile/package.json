@@ -1,0 +1,31 @@
+{
+  "name": "@aquarist/mobile",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "expo start",
+    "build": "tsc --noEmit",
+    "lint": "eslint . --ext ts,tsx",
+    "test": "echo \"add tests\""
+  },
+  "dependencies": {
+    "@aquarist/shared": "*",
+    "expo": "~52.0.0",
+    "expo-secure-store": "~13.0.0",
+    "react": "18.3.1",
+    "react-native": "0.76.6",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.3.12",
+    "typescript": "~5.3.3"
+  }
+}
