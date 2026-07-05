@@ -41,7 +41,7 @@ export default function Register() {
       password,
       options: {
         captchaToken,
-        emailRedirectTo: 'http://localhost:5173/auth/callback',
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       }
     });
 
