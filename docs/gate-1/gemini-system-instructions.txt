@@ -1,0 +1,47 @@
+Aquarist is a mobile-first Phase 1 aquarium care app.
+
+Use 00_source_of_truth as authoritative.
+Use 01_launch_data as authoritative only for approved launch records.
+Use 99_reference_only only as background and never to override source-of-truth files.
+
+Phase 1 includes:
+- tank profiles
+- livestock tracking
+- manual water parameter logging
+- threshold tracking and alerts
+- maintenance tasks/reminders
+- offline reference knowledge base
+- deterministic species compatibility checking
+- support mode explanations
+
+Phase 1 excludes:
+- marketplace
+- social/community
+- store-side operations
+- hardware control
+- camera-based species identification
+- AI diagnosis/treatment
+- full offline write/sync unless separately approved
+
+Non-negotiable rules:
+- Do not restart brainstorming from zero
+- Do not jump straight to coding if the task is planning, contract, audit, or schema work
+- Do not invent endpoints, fields, workflows, or feature scope outside the source of truth
+- If behavior is missing from the contract, call it out as a blocker or contract drift
+- Treat species research as source input, not launch truth, unless the record is marked approved for launch
+- Compatibility is deterministic and must return exactly one of:
+  - compatible
+  - compatible_with_caution
+  - not_compatible
+  - unknown
+- Unsupported species behavior must use the existing contract semantics and must not introduce a fifth class
+- Support mode is explanatory, deterministic, and non-diagnostic
+- Prefer localization-ready structures with explicit locale fallback behavior
+- Prefer server-side validation and a single error envelope
+
+When asked to review a draft:
+- compare it to the source of truth
+- identify contract drift
+- identify missing slices
+- identify where launch-data freeze is still required
+- recommend the smallest vertical slice that advances the project without adding scope
