@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${SUPABASE_URL:-}"
+: "${SUPABASE_SERVICE_ROLE_KEY:-}"
+
+usage() {
+  cat <<'EOF'
+Usage: supact <command> [args]
+
+Commands:
+  ping                    Check Supabase REST reachability
+  health                  Project health via /rest/v1/
+  tables                  List tables via pg_catalog
+  table <name>            Table columns and types
+  sql <statement>         Execute read-only SQL via PostgREST/rpc fallback
+  ready                   Readiness check using health/ready handlers
+EOF
+}
+
+require_env() {
+  if [[ -z "${SUPABASE_URL:-}" || -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]]; then
+    echo "Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY" >&2
+    exit 1
+  fi
+}
+
+normalize_url() {
+  case "$1" in
+    */) printf '%s\n' "$1" ;;
+    *) printf '%s/\n' "$1" ;;
+  esac
+}
+
+request() {
+  require_env
+  local method="$1"; shift
+  local path="$1"; shift
+  curl -sS -X "$method" \
+    -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}" \
+    -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}" \
+    "${SUPABASE_URL}${path}" "$@"
+}
+
+ping() {
+  require_env
+  local url
+  url="$(normalize_url "${SUPABASE_URL}")"
+  curl -sS -o /dev/null -w "%{http_code}" "${url}"
+}
+
+health() {
+  require_env
+  local code
+  code="$(request GET "rest/v1/" -w "%{http_code}" -o /tmp/supact_health_body || true)"
+  local body
+  body="$(cat /tmp/supact_health_body 2>/dev/null || echo '')"
+  echo "HTTP ${code}"
+  echo "${body}"
+}
+
+ready() {
+  require_env
+  local url
+  url="$(normalize_url "${SUPABASE_URL}")"
+  local code
+  code="$(curl -sS -o /tmp/supact_ready_body -w "%{http_code}" "${url}health" || true)"
+  echo "HTTP ${code}"
+  cat /tmp/supact_ready_body 2>/dev/null || true
+}
+
+tables() {
+  require_env
+  request GET "rest/v1/information_schema/tables?select=table_schema,table_name&table_schema=eq.public&order=table_name.asc" | python3 -m json.tool 2>/dev/null || request GET "rest/v1/information_schema/tables?select=table_schema,table_name&table_schema=eq.public&order=table_name.asc"
+}
+
+table() {
+  require_env
+  local name="$1"
+  request GET "rest/v1/information_schema/columns?select=column_name,data_type,is_nullable,column_default&table_name=eq.${name}&table_schema=eq.public&order=ordinal_position.asc"
+}
+
+sql() {
+  require_env
+  local statement="$1"
+  echo "Warning: SQL execution may require a management API endpoint or RPC exposed" >&2
+  request GET "rest/v1/rpc/exec?query=${statement}" || true
+}
+
+case "${1:-}" in
+  ping) shift; ping "$@" ;;
+  health) shift; health "$@" ;;
+  ready) shift; ready "$@" ;;
+  tables) shift; tables "$@" ;;
+  table) shift; table "$@" ;;
+  sql) shift; sql "$@" ;;
+  *) usage; exit 1 ;;
+esac
