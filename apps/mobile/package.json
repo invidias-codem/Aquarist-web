@@ -18,14 +18,16 @@
   },
   "dependencies": {
     "@aquarist/shared": "*",
+    "@supabase/supabase-js": "^2.39.0",
     "expo": "~52.0.0",
     "expo-secure-store": "~13.0.0",
     "react": "18.3.1",
-    "react-native": "0.76.6",
-    "@supabase/supabase-js": "^2.39.0"
+    "react-native": "0.76.6"
   },
   "devDependencies": {
     "@types/react": "~18.3.12",
+    "eslint": "^9.39.4",
+    "eslint-config-expo": "^57.0.0",
     "typescript": "~5.3.3"
   }
 }
