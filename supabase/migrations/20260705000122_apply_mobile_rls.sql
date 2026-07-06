@@ -1,3 +1,12 @@
+alter table public.tanks enable row level security;
+alter table public.tank_thresholds enable row level security;
+alter table public.livestock_entries enable row level security;
+alter table public.parameter_log_sessions enable row level security;
+alter table public.parameter_log_measurements enable row level security;
+alter table public.maintenance_tasks enable row level security;
+alter table public.maintenance_task_events enable row level security;
+alter table public.alerts enable row level security;
+
 create policy tanks_owner_select on public.tanks
   for select
   to authenticated

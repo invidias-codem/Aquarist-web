@@ -1,6 +1,6 @@
 create table public.users (
   id uuid references auth.users(id) on delete cascade primary key,
-  auth_subject text generated always as (auth.uid()::text) stored,
+  auth_subject uuid not null default gen_random_uuid(),
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -18,6 +18,27 @@ set search_path = ''
 as $$
   select nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::uuid;
 $$;
+
+create or replace function public.set_auth_subject()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  new.auth_subject := nullif(current_setting('request.jwt.claims', true)::json->>'sub', '')::uuid;
+  if new.auth_subject is null and TG_OP = 'INSERT' then
+    new.auth_subject := new.id;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists users_set_auth_subject on public.users;
+create trigger users_set_auth_subject
+  before insert on public.users
+  for each row
+  execute function public.set_auth_subject();
 
 do $$
 begin
