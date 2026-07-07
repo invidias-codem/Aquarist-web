@@ -10,7 +10,7 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"add linter\"",
-    "test": "tsx tests/schemas.test.ts"
+    "test": "tsx tests/run.ts"
   },
   "files": [
     "src"
