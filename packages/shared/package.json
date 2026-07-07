@@ -10,9 +10,12 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"add linter\"",
-    "test": "echo \"add tests\""
+    "test": "tsx tests/schemas.test.ts"
   },
   "files": [
     "src"
-  ]
+  ],
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
 }

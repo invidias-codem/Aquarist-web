@@ -15,8 +15,12 @@
   },
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.8",
+    "tsx": "^4.23.0",
     "turbo": "latest",
     "typescript": "~6.0.2"
   },
-  "packageManager": "npm@10.9.8"
+  "packageManager": "npm@10.9.8",
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
 }
