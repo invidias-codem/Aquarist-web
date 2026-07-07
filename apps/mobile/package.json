@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "expo start",
     "build": "tsc --noEmit",
-    "lint": "eslint . --ext ts,tsx",
+    "lint": "eslint ./src --ext ts,tsx",
     "test": "echo \"add tests\""
   },
   "dependencies": {

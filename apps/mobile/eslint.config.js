@@ -15,11 +15,17 @@ export default [
       ...typescript.configs['recommended'].rules,
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
-    linterOptions: {
-      ignorePath: '.eslintignore',
-    },
   },
   {
-    ignores: ['eslint.config.js'],
+    ignores: [
+      'eslint.config.js',
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      '*.js',
+      '*.d.ts',
+      'src/App.d.ts',
+      'src/App.js',
+    ],
   },
 ];

@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "supabase functions serve",
     "build": "tsc --noEmit",
-    "lint": "eslint . --ext ts",
+    "lint": "eslint ./src --ext ts",
     "test": "echo \"add tests\""
   },
   "dependencies": {
